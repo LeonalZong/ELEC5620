@@ -12,3 +12,6 @@ export const loginUser = (credentials) => {
 export const registerUser = (userData) => {
     return apiClient.post('/register', userData);
 }
+export const userInformation = (userinformation) =>{
+    return apiClient.post('/UpdateInformation', userinformation)
+}

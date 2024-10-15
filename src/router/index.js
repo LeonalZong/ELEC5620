@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginPage from '../components/LoginPage.vue'; // 登录页
 import HealthManagement from '../components/HealthManagement.vue'; // 健康管理主页
+import UpdateInformation from '../components/UpdateInformation.vue' // Users update/upload their health information
+import ReportGeneration from '@/components/ReportGeneration.vue'; // Users generate reports
+import ReportReview from '@/components/ReportReview.vue'; // User review their reports
 
 const routes = [
   {
@@ -12,7 +15,22 @@ const routes = [
     path: '/health-management',
     name: 'HealthManagement',
     component: HealthManagement,
-  }
+  },
+  {
+    path: '/UpdateInformation',
+    name: 'UpdateInformation',
+    component: UpdateInformation,
+  },
+  {
+    path: '/ReportGeneration',
+    name: 'ReportGeneration',
+    component: ReportGeneration,
+  },
+  {
+    path: '/ReportReview',
+    name: 'ReportReview',
+    component: ReportReview,
+  },
 ];
 
 const router = createRouter({
