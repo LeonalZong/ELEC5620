@@ -5,7 +5,8 @@
             <template v-slot:title><img src="../assets/logo.png" alt="Image 1" style="width: 20px; height: 20px; margin-right: 8px;"></template>
             <el-menu-item index="1-1">Manage Personal Information</el-menu-item>
             <el-menu-item index="1-2" @click="goToPage('/HealthData')">Health Data</el-menu-item>
-            <el-menu-item index="1-3" @click="logout">Log out</el-menu-item>
+            <el-menu-item index="1-3" @click="goToPage('/DietSportPreference')">Diet and Sport Preference</el-menu-item>
+            <el-menu-item index="1-4" @click="logout">Log out</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="2" @click="goToPage('/ReportGeneration')">Generate Report</el-menu-item>
         <el-menu-item index="3" @click="goToPage('/ReportReview')">Historical Report Review</el-menu-item>

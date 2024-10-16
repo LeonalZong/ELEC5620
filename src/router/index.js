@@ -5,7 +5,7 @@ import UpdateInformation from '../components/UpdateInformation.vue' // Users upd
 import ReportGeneration from '@/components/ReportGeneration.vue'; // Users generate reports
 import ReportReview from '@/components/ReportReview.vue'; // User review their reports
 import HealthData from '../components/HealthData.vue'; // 导入新创建的 HealthData 组件
-
+import DietSportPreference from '../components/DietSportPreference.vue';
 const routes = [
   {
     path: '/',
@@ -36,6 +36,11 @@ const routes = [
     path: '/HealthData',
     name: 'HealthData',
     component: HealthData, // 将 HealthData 组件添加到路由中
+  },
+  {
+    path: '/DietSportPreference',
+    name: 'DietSportPreference',
+    component: DietSportPreference, // 将 HealthData 组件添加到路由中
   },
 ];
 
