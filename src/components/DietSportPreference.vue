@@ -8,22 +8,22 @@
               </template>
               <el-menu-item index="1-1" @click="goToPage('/UpdateInformation')">Manage Personal Information</el-menu-item>
               <el-menu-item index="1-2" @click="goToPage('/HealthData')">Health Data</el-menu-item>
-              <el-menu-item index="1-3" @click="goToPage('/DietSportPreferences')">Diet and Sport Preference</el-menu-item>
+              <el-menu-item index="1-3">Diet and Sport Preference</el-menu-item>
               <el-menu-item index="1-4" @click="logout">Log out</el-menu-item>
           </el-sub-menu>
           <el-menu-item index="2" @click="goToPage('/ReportGeneration')">Generate Report</el-menu-item>
           <el-menu-item index="3" @click="goToPage('/ReportReview')">Historical Report Review</el-menu-item>
       </el-menu>
       <div class="form-container">
-        <el-form :model="healthData" :rules="rules" ref="healthFormRef">
+        <el-form :model="form" :rules="rules" ref="formRef">
           <el-form-item label="Diet Preferences" prop="dietPreferences">
-            <el-input type="textarea" v-model="healthData.dietPreferences" placeholder="Enter your diet preferences" clearable :rows="5"></el-input>
+            <el-input type="textarea" v-model="form.dietPreferences" placeholder="Enter your diet preferences" clearable :rows="5"></el-input>
           </el-form-item>
           <el-form-item label="Sport Preferences" prop="sportPreferences">
-            <el-input type="textarea" v-model="healthData.sportPreferences" placeholder="Enter your sport preferences" clearable :rows="5"></el-input>
+            <el-input type="textarea" v-model="form.sportPreferences" placeholder="Enter your sport preferences" clearable :rows="5"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitHealthData">Submit</el-button>
+            <el-button type="primary" @click="submitForm">Submit</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -31,11 +31,12 @@
   </template>
   
   <script>
+  import axios from 'axios';
   export default {
     name: 'HealthData',
     data() {
       return {
-        healthData: {
+        form: {
           dietPreferences: '',
           sportPreferences: '',
         },
@@ -76,15 +77,32 @@
       goToPage(route) {
         this.$router.push(route); // 使用 Vue Router 进行页面跳转
       },
-      submitHealthData() {
-        this.$refs.healthFormRef.validate((valid) => {
+      submitForm() {
+        this.$refs.formRef.validate((valid) => {
           if (valid) {
             alert('Submit!');
-            console.log('Health data submitted:', this.healthData);
-            // Send data to backend
+            // 将数据打包为 JSON
+            const jsonData = JSON.stringify(this.form);
+            // 发送到后端
+            this.sendDataToBackend(jsonData);
           } else {
-            console.log('Validation failed');
+            console.log('Error submit!');
+            return false;
           }
+        });
+      },
+      sendDataToBackend(data) {
+        //未测试
+        axios.post('YOUR_BACKEND_URL', data, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => {
+          console.log('Data sent successfully:', response.data);
+        })
+        .catch(error => {
+          console.error('Error sending data:', error);
         });
       },
     },
