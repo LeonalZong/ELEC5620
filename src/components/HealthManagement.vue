@@ -9,7 +9,6 @@
         </el-sub-menu>
         <el-menu-item index="2" @click="goToPage('/ReportGeneration')">Generate Report</el-menu-item>
         <el-menu-item index="3" @click="goToPage('/ReportReview')">Historical Report Review</el-menu-item>
-        <el-menu-item index="4">Manage API</el-menu-item>
     </el-menu>
 
     
