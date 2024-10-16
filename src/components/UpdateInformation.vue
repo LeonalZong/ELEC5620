@@ -10,6 +10,7 @@
         <el-menu-item index="3" @click="goToPage('/ReportReview')">Historical Report Review</el-menu-item>
         <el-menu-item index="4">Manage API</el-menu-item>
     </el-menu>
+    <div class="form-container">
     <el-form :model="form" :rules="rules" ref="formRef">
         <el-form-item label="Username" prop="username">
             <el-input v-model="form.username" placeholder="Please input username" clearable></el-input>
@@ -35,6 +36,7 @@
             <el-button type="primary" @click="submitForm">Submit</el-button>
         </el-form-item>
     </el-form>
+</div>
 </template>
 
 <script>
@@ -164,17 +166,58 @@ export default {
 </script>
 
 <style scoped>
-.el-select, .el-input {
-    width: 300px;
+.form-container {
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    height: 100vh; /* 占满整个窗口 */
+    background-color: #f5f7fac9; /* 背景色：浅灰色 */
 }
 
-
-.el-menu-demo {
-    line-height: 0;
+.el-form {
+    width: 650px; /* 调整表单宽度 */
+    padding: 21px;
+    background-color: #fff;
+    box-shadow: 0 6px 30px rgba(70, 132, 180, 0.76); /* 为表单添加阴影 */
+    border-radius: 12px; /* 圆角 */
+    transition: all 0.3s ease-in-out; /* 增加过渡效果 */
 }
 
+/* 增加表单项之间的间距 */
+::v-deep .el-form-item {
+    margin-bottom: 40px;
+}
+/* 让提交按钮居中 */
+::v-deep .el-form-item:last-child {
+    text-align: center;
+}
+/* 美化提交按钮 */
+::v-deep .el-button {
+    font-size: 24px;
+    padding:16px 32px;
+    background-color: #409EFF;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    text-align: center;
+}
 
+/* 提交按钮的加深效果 */
+::v-deep .el-button:hover {
+    background-color: #66b0ff;
+}
 
+/* 输入框和选择器的边框 */
+::v-deep .el-input__inner,
+::v-deep .el-select .el-input__inner,
+::v-deep .el-date-editor .el-input__inner {
+    border-radius: 5px;
+}
 
-
+/* 为输入框和选择器添加聚焦时的边框加深 */
+::v-deep .el-input__inner:focus,
+::v-deep .el-select .el-input__inner:focus,
+::v-deep .el-date-editor .el-input__inner:focus {
+    border-color: #409EFF;
+}
 </style>
