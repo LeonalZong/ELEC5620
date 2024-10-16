@@ -4,6 +4,7 @@ import HealthManagement from '../components/HealthManagement.vue'; // 健康管�
 import UpdateInformation from '../components/UpdateInformation.vue' // Users update/upload their health information
 import ReportGeneration from '@/components/ReportGeneration.vue'; // Users generate reports
 import ReportReview from '@/components/ReportReview.vue'; // User review their reports
+import HealthData from '../components/HealthData.vue'; // 导入新创建的 HealthData 组件
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/ReportReview',
     name: 'ReportReview',
     component: ReportReview,
+  },
+  {
+    path: '/HealthData',
+    name: 'HealthData',
+    component: HealthData, // 将 HealthData 组件添加到路由中
   },
 ];
 
