@@ -1,12 +1,13 @@
 <template>
-  <div>
-    <h1>{{ msg }}</h1>
-
+  <div class="container">
+    <div class="button-container">
+    
     <!-- 登录按钮 -->
-    <el-button type="primary" @click="openLoginDialog">Login</el-button>
+    <el-button class="login-btn" type="primary" @click="openLoginDialog">Login</el-button>
 
     <!-- 注册按钮 -->
-    <el-button type="success" @click="openRegisterDialog">Register</el-button>
+    <el-button class="register-btn" type="success" @click="openRegisterDialog">Register</el-button>
+  </div>
 
     <!-- 登录对话框 -->
     <el-dialog title="Login" v-model="loginDialogVisible" width="30%">
@@ -148,5 +149,54 @@ export default {
 <style scoped>
 .dialog-footer {
   text-align: right;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f7fa7b; /* 背景色：浅灰色 */
+}
+
+/* 按钮容器 */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  border: 2px solid #ccc;
+  padding: 20px;
+  background-color: #fff;
+  width: 350px; /* 确保容器的固定宽度 */
+  text-align: center;
+  box-shadow: 0 7px 30px rgba(0, 123, 255, 0.5); /* 添加阴影 */
+}
+
+/* 按钮样式 */
+.login-btn,
+.register-btn {
+  font-size: 22px;
+  width: 100%; /* 确保按钮占据容器的全部宽度 */
+  margin-bottom: 25px; /* 按钮之间的间距 */
+  margin-top: 25px;
+  padding: 30px; /* 控制按钮的高度 */
+  border-radius: 7px; /* 按钮的圆角 */
+  box-sizing: border-box; /* 包含 padding 和 border 在内 */
+}
+.register-btn {
+  margin-left: 0px;
+}
+
+/* 边框样式 */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  border: 2px solid #ccc;
+  padding: 20px;
+  background-color: #fff;
 }
 </style>
