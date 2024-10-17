@@ -1,33 +1,33 @@
 <template>
-    <div>
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
-            :background-color="backgroundColor" :text-color="textColor" :active-text-color="activeTextColor">
-            <el-sub-menu index="1">
-                <template v-slot:title>
-                    <img src="../assets/logo.png" alt="Image 1" style="width: 20px; height: 20px; margin-right: 8px; cursor: pointer;" @click="goToPage('/UpdateInformation')">
-                </template>
-                <el-menu-item index="1-1" @click="goToPage('/UpdateInformation')">Manage Personal Information</el-menu-item>
-                <el-menu-item index="1-2" @click="goToPage('/HealthData')">Health Data</el-menu-item>
-                <el-menu-item index="1-3" @click="goToPage('/DietSportPreference')">Diet and Sport Preference</el-menu-item>
-                <el-menu-item index="1-4" @click="logout">Log out</el-menu-item>
-            </el-sub-menu>
-            <el-menu-item index="2" @click="goToPage('/ReportGeneration')">Generate Report</el-menu-item>
-            <el-menu-item index="3" @click="goToPage('/ReportReview')">Historical Report Review</el-menu-item>
-        </el-menu>
-        <div class="form-container">
-            <el-form :model="form" :rules="rules" ref="formRef">
-                
-            <h2 style="text-align: center;">Report Generation</h2>
-            <p style="text-align: center;">Please fill in your requirements below.</p>
-            <el-form-item>
-                <el-input type="textarea" v-model="form.sportPreferences" placeholder="Enter your requirement for this task.." clearable :rows="5"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm" style="text-align: center;">Submit</el-button>
-            </el-form-item>
-            </el-form>
-        </div>
-    </div>
+  <div>
+      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
+          :background-color="backgroundColor" :text-color="textColor" :active-text-color="activeTextColor">
+          <el-sub-menu index="1">
+              <template v-slot:title>
+                  <img src="../assets/logo.png" alt="Image 1" style="width: 20px; height: 20px; margin-right: 8px; cursor: pointer;" @click="goToPage('/UpdateInformation')">
+              </template>
+              <el-menu-item index="1-1" @click="goToPage('/UpdateInformation')">Manage Personal Information</el-menu-item>
+              <el-menu-item index="1-2" @click="goToPage('/HealthData')">Health Data</el-menu-item>
+              <el-menu-item index="1-3" @click="goToPage('/DietSportPreference')">Diet and Sport Preference</el-menu-item>
+              <el-menu-item index="1-4" @click="logout">Log out</el-menu-item>
+          </el-sub-menu>
+          <el-menu-item index="2" @click="goToPage('/ReportGeneration')">Generate Report</el-menu-item>
+          <el-menu-item index="3" @click="goToPage('/ReportReview')">Historical Report Review</el-menu-item>
+      </el-menu>
+      <div class="form-container">
+          <el-form :model="form" :rules="rules" ref="formRef">
+              
+          <h2 style="text-align: center;">Report Generation</h2>
+          <p style="text-align: center;">Please fill in your requirements below.</p>
+          <el-form-item>
+              <el-input type="textarea" v-model="form.sportPreferences" placeholder="Enter your requirement for this task.." clearable :rows="5"></el-input>
+          </el-form-item>
+          <el-form-item>
+              <el-button type="primary" @click="submitForm" style="text-align: center;">Submit</el-button>
+          </el-form-item>
+          </el-form>
+      </div>
+  </div>
 </template>
 
 <script>
