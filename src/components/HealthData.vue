@@ -4,7 +4,7 @@
         :background-color="backgroundColor" :text-color="textColor" :active-text-color="activeTextColor">
         <el-sub-menu index="1">
             <template v-slot:title>
-              <img src="../assets/logo.png" alt="Image 1" style="width: 20px; height: 20px; margin-right: 8px; cursor: pointer;" @click="goToPage('/UpdateInformation')">
+              <img src="../assets/logo.png" alt="Image 1" style="width: 20px; height: 20px; margin-right: 8px; cursor: pointer;">
             </template>
             <el-menu-item index="1-1" @click="goToPage('/UpdateInformation')">Manage Personal Information</el-menu-item>
             <el-menu-item index="1-2" @click="goToPage('/HealthData')">Health Data</el-menu-item>
@@ -22,6 +22,9 @@
         <el-form-item label="Weight (kg)" prop="weight">
           <el-input v-model="healthData.weight" placeholder="Enter your weight" clearable></el-input>
         </el-form-item>
+        <el-form-item label="Cholesterol" prop="cholesterol">
+          <el-input v-model="healthData.cholesterol" placeholder="Enter your cholesterol" clearable></el-input>
+        </el-form-item>
         <el-form-item label="Blood Pressure" prop="bloodPressure">
           <el-input v-model="healthData.bloodPressure" placeholder="Enter your blood pressure" clearable></el-input>
         </el-form-item>
@@ -37,6 +40,7 @@
 </template>
 
 <script>
+import {saveHealthData} from "../api";
 export default {
   name: 'HealthData',
   data() {
@@ -44,6 +48,7 @@ export default {
       healthData: {
         height: '',
         weight: '',
+        cholesterol: '',
         bloodPressure: '',
         restingHeartRate: '',
       },
@@ -90,17 +95,52 @@ export default {
     goToPage(route) {
       this.$router.push(route); // 使用 Vue Router 进行页面跳转
     },
-    submitHealthData() {
-      this.$refs.healthFormRef.validate((valid) => {
-        if (valid) {
-          alert('Submit!');
-          console.log('Health data submitted:', this.healthData);
-          // Send data to backend
-        } else {
-          console.log('Validation failed');
-        }
+    async submitHealthData() {
+      // 进行表单验证
+      this.$refs.healthFormRef.validate(async (valid) => {
+          if (valid) {
+              try {
+                  // 调用 saveHealthData API
+                  const response = await saveHealthData({
+                      height: this.healthData.height,
+                      weight: this.healthData.weight,
+                      cholesterol: this.healthData.cholesterol,
+                      bloodPressure: this.healthData.bloodPressure,
+                      restingHeartRate: this.healthData.restingHeartRate
+                  });
+
+                  console.log('数据输入响应：', response);
+
+                  // 检查响应是否成功
+                  if (response.data.success) {
+                      alert('健康数据已成功提交！');
+                      // 清空表单或执行其他逻辑
+                      this.healthData = {
+                          height: '',
+                          weight: '',
+                          cholesterol: '',
+                          bloodPressure: '',
+                          restingHeartRate: ''
+                      };
+                  } else {
+                      alert('提交失败：' + response.data.message);
+                  }
+              } catch (error) {
+                  console.error('数据输入错误：', error);
+
+                  // 从错误响应中提取信息
+                  let errorMessage = '数据输入失败。';
+                  if (error.response && error.response.data && error.response.data.message) {
+                      errorMessage = error.response.data.message;
+                  }
+
+                  alert(errorMessage);
+              }
+          } else {
+              alert('请确保填写所有必填字段！');
+          }
       });
-    },
+    }
   },
 };
 </script>

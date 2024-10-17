@@ -15,3 +15,6 @@ export const registerUser = (userData) => {
 export const userInformation = (userinformation) =>{
     return apiClient.post('/UpdateInformation', userinformation)
 }
+export const saveHealthData = (saveHealthData) =>{
+    return apiClient.post('/healthdata/save', saveHealthData)
+}
