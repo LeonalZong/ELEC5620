@@ -168,7 +168,7 @@ export default {
   border: 2px solid #ccc;
   padding: 20px;
   background-color: #fff;
-  width: 350px; /* 确保容器的固定宽度 */
+  width: 350px;
   text-align: center;
   box-shadow: 0 7px 30px rgba(0, 123, 255, 0.5); /* 添加阴影 */
 }
