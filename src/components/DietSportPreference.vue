@@ -93,7 +93,7 @@
       },
       sendDataToBackend(data) {
         //未测试
-        axios.post('YOUR_BACKEND_URL', data, {
+        axios.post('http://localhost:8082/dietsportpreference/save', data, {
           headers: {
             'Content-Type': 'application/json'
           }
