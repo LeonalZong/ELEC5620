@@ -15,6 +15,11 @@ export const registerUser = (userData) => {
 export const userInformation = (userinformation) =>{
     return apiClient.post('/UpdateInformation', userinformation)
 }
-export const saveHealthData = (saveHealthData) =>{
-    return apiClient.post('/healthdata/save', saveHealthData)
+export const saveHealthData = (healthData) => {
+    const token = localStorage.getItem('token'); // 从本地存储中获取令牌
+    return apiClient.post('/healthdata/save', healthData, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 }
