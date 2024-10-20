@@ -18,3 +18,18 @@ export const userInformation = (userinformation) =>{
 export const saveHealthData = (saveHealthData) =>{
     return apiClient.post('/healthdata/save', saveHealthData)
 }
+export const saveDietSportPreference = async (data) => {
+    console.log('Sending diet sport preference data:', data);
+    try {
+      const response = await apiClient.post('/dietsportpreference/save', data);
+      console.log('Diet sport preference response:', response);
+      return response;
+    } catch (error) {
+      console.error('Error saving diet sport preference:', error);
+      throw error;
+    }
+  };
+
+export const getDietSportPreference = (userId) => {
+    return apiClient.get(`/dietsportpreference/get/${userId}`);
+};
