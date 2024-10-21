@@ -8,7 +8,7 @@
             </template>
             <el-menu-item index="1-1" @click="goToPage('/UpdateInformation')">Manage Personal Information</el-menu-item>
             <el-menu-item index="1-2" @click="goToPage('/HealthData')">Health Data</el-menu-item>
-            <el-menu-item index="1-5" @click="goToPage('/DietSportPreference')">Diet and Sport Preference</el-menu-item>
+            <el-menu-item index="1-3" @click="goToPage('/DietSportPreference')">Diet and Sport Preference</el-menu-item>
             <el-menu-item index="1-4" @click="logout">Log out</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="2" @click="goToPage('/ReportGeneration')">Generate Report</el-menu-item>
@@ -25,8 +25,11 @@
         <el-form-item label="Cholesterol" prop="cholesterol">
           <el-input v-model="healthData.cholesterol" placeholder="Enter your cholesterol" clearable></el-input>
         </el-form-item>
-        <el-form-item label="Blood Pressure" prop="bloodPressure">
-          <el-input v-model="healthData.bloodPressure" placeholder="Enter your blood pressure" clearable></el-input>
+        <el-form-item label="Systolic Blood Pressure" prop="systolicBloodPressure">
+          <el-input v-model="healthData.systolicBloodPressure" placeholder="Enter your systolic blood pressure" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="Diastolic Blood Pressure" prop="diastolicBloodPressure">
+          <el-input v-model="healthData.diastolicBloodPressure" placeholder="Enter your diastolic blood pressure" clearable></el-input>
         </el-form-item>
         <el-form-item label="Resting Heart Rate" prop="restingHeartRate">
           <el-input v-model="healthData.restingHeartRate" placeholder="Enter your resting heart rate" clearable></el-input>
@@ -49,7 +52,8 @@ export default {
         height: '',
         weight: '',
         cholesterol: '',
-        bloodPressure: '',
+        systolicBloodPressure: '',
+        diastolicBloodPressure: '',
         restingHeartRate: '',
       },
       rules: {
@@ -105,7 +109,8 @@ export default {
                       height: this.healthData.height,
                       weight: this.healthData.weight,
                       cholesterol: this.healthData.cholesterol,
-                      bloodPressure: this.healthData.bloodPressure,
+                      systolicBloodPressure: this.healthData.systolicBloodPressure,
+                      diastolicBloodPressure: this.healthData.diastolicBloodPressure,
                       restingHeartRate: this.healthData.restingHeartRate
                   });
 
@@ -119,7 +124,8 @@ export default {
                           height: '',
                           weight: '',
                           cholesterol: '',
-                          bloodPressure: '',
+                          systolicBloodPressure: '',
+                          diastolicBloodPressure: '',
                           restingHeartRate: ''
                       };
                   } else {
