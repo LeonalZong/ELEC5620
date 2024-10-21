@@ -15,13 +15,26 @@ export const registerUser = (userData) => {
 export const userInformation = (userinformation) =>{
     return apiClient.post('/UpdateInformation', userinformation)
 }
-export const saveHealthData = (saveHealthData) =>{
-    return apiClient.post('/healthdata/save', saveHealthData)
+export const saveHealthData = (healthData) => {
+    const token = localStorage.getItem('token'); // 从本地存储中获取令牌
+    return apiClient.post('/healthdata/save', healthData, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 }
-export const saveDietSportPreference = async (data) => {
-    console.log('Sending diet sport preference data:', data);
+export const saveDietSportPreference = async (dietSportPreference) => {
+    const token = localStorage.getItem('token');
+    
+    console.log('Sending diet sport preference data:', dietSportPreference);
+    
     try {
-      const response = await apiClient.post('/dietsportpreference/save', data);
+      const response = await apiClient.post('/dietsportpreference/save', dietSportPreference, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
       console.log('Diet sport preference response:', response);
       return response;
     } catch (error) {
@@ -29,7 +42,3 @@ export const saveDietSportPreference = async (data) => {
       throw error;
     }
   };
-
-export const getDietSportPreference = (userId) => {
-    return apiClient.get(`/dietsportpreference/get/${userId}`);
-};

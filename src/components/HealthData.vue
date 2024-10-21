@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
-        :background-color="backgroundColor" :text-color="textColor" :active-text-color="activeTextColor">
+        background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
         <el-sub-menu index="1">
             <template v-slot:title>
               <img src="../assets/logo.png" alt="Image 1" style="width: 20px; height: 20px; margin-right: 8px; cursor: pointer;">
@@ -40,11 +40,13 @@
 </template>
 
 <script>
-import {saveHealthData} from "../api";
+import { saveHealthData, getHealthData } from "../api";
+
 export default {
   name: 'HealthData',
   data() {
     return {
+      activeIndex: '1-2',
       healthData: {
         height: '',
         weight: '',
@@ -59,89 +61,60 @@ export default {
         weight: [
           { required: true, message: 'Weight is required', trigger: 'blur' },
         ],
-        // Removed required validation for bloodPressure and restingHeartRate
       },
     };
-  },
-  props: {
-    activeIndex: {
-      type: String,
-      default: '1',
-    },
-    backgroundColor: {
-      type: String,
-      default: '#545c64',
-    },
-    textColor: {
-      type: String,
-      default: '#fff',
-    },
-    activeTextColor: {
-      type: String,
-      default: '#ffd04b',
-    },
   },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
     logout() {
-      // 清除本地存储的 token
       localStorage.removeItem('token');
-
-      // 跳转回登录页面
       this.$router.push('/');
     },
     goToPage(route) {
-      this.$router.push(route); // 使用 Vue Router 进行页面跳转
+      this.$router.push(route);
+    },
+    async fetchExistingHealthData() {
+      try {
+        const response = await getHealthData();
+        if (response.data && response.data.data) {
+          this.healthData = { ...this.healthData, ...response.data.data };
+        }
+      } catch (error) {
+        console.error('Error fetching existing health data:', error);
+      }
     },
     async submitHealthData() {
-      // 进行表单验证
       this.$refs.healthFormRef.validate(async (valid) => {
-          if (valid) {
-              try {
-                  // 调用 saveHealthData API
-                  const response = await saveHealthData({
-                      height: this.healthData.height,
-                      weight: this.healthData.weight,
-                      cholesterol: this.healthData.cholesterol,
-                      bloodPressure: this.healthData.bloodPressure,
-                      restingHeartRate: this.healthData.restingHeartRate
-                  });
+        if (valid) {
+          try {
+            const response = await saveHealthData(this.healthData);
 
-                  console.log('数据输入响应：', response);
+            console.log('Health data response:', response);
 
-                  // 检查响应是否成功
-                  if (response.data.success) {
-                      alert('健康数据已成功提交！');
-                      // 清空表单或执行其他逻辑
-                      this.healthData = {
-                          height: '',
-                          weight: '',
-                          cholesterol: '',
-                          bloodPressure: '',
-                          restingHeartRate: ''
-                      };
-                  } else {
-                      alert('提交失败：' + response.data.message);
-                  }
-              } catch (error) {
-                  console.error('数据输入错误：', error);
-
-                  // 从错误响应中提取信息
-                  let errorMessage = '数据输入失败。';
-                  if (error.response && error.response.data && error.response.data.message) {
-                      errorMessage = error.response.data.message;
-                  }
-
-                  alert(errorMessage);
-              }
-          } else {
-              alert('请确保填写所有必填字段！');
+            if (response.data.code === 1) {
+              alert('Health data successfully submitted!');
+            } else {
+              alert('Submission failed: ' + response.data.msg);
+            }
+          } catch (error) {
+            console.error('Error submitting health data:', error);
+            let errorMessage = 'Failed to submit health data.';
+            if (error.response && error.response.data && error.response.data.msg) {
+              errorMessage = error.response.data.msg;
+            }
+            alert(errorMessage);
           }
+        } else {
+          alert('Please ensure all required fields are filled!');
+        }
       });
     }
   },
+  mounted() {
+    this.fetchExistingHealthData();
+  }
 };
 </script>
 
