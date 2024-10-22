@@ -1,13 +1,14 @@
 <template>
   <div class="container">
     <div class="button-container">
-    
+    <h2>Welcome back!</h2>
+    <p>Log in or register to get personal health management system.</p>
     <!-- 登录按钮 -->
     <el-button class="login-btn" type="primary" @click="openLoginDialog">Login</el-button>
 
     <!-- 注册按钮 -->
     <el-button class="register-btn" type="success" @click="openRegisterDialog">Register</el-button>
-  </div>
+    </div>
 
     <!-- 登录对话框 -->
     <el-dialog title="Login" v-model="loginDialogVisible" width="30%">
@@ -19,7 +20,7 @@
       </div>
       <template v-slot:footer>
         <el-button @click="loginDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="handleLogin">Login</el-button>
+        <el-button type="primary" @click="handleLogin" v-loading="loading">Login</el-button>
       </template>
     </el-dialog>
 
@@ -39,7 +40,7 @@
       </div>
       <template v-slot:footer>
         <el-button @click="registerDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="handleRegister">Register</el-button>
+        <el-button type="primary" @click="handleRegister" v-loading="loading">Register</el-button>
       </template>
     </el-dialog>
   </div>
@@ -177,12 +178,14 @@ export default {
 .login-btn,
 .register-btn {
   font-size: 22px;
-  width: 100%; /* 确保按钮占据容器的全部宽度 */
-  margin-bottom: 25px; /* 按钮之间的间距 */
+  width: 50%; /* 确保按钮占据容器的全部宽度 */
+  height: 100%;
+  margin-bottom: 0px; /* 按钮之间的间距 */
   margin-top: 25px;
   padding: 30px; /* 控制按钮的高度 */
   border-radius: 7px; /* 按钮的圆角 */
   box-sizing: border-box; /* 包含 padding 和 border 在内 */
+  font-size: 15px;
 }
 .register-btn {
   margin-left: 0px;

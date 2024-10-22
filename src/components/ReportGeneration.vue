@@ -4,9 +4,9 @@
           :background-color="backgroundColor" :text-color="textColor" :active-text-color="activeTextColor">
           <el-sub-menu index="1">
               <template v-slot:title>
-                  <img src="../assets/logo.png" alt="Image 1" style="width: 20px; height: 20px; margin-right: 8px; cursor: pointer;" @click="goToPage('/UpdateInformation')">
+                  <img src="../assets/logo.png" alt="Image 1" style="width: 20px; height: 20px; margin-right: 8px; cursor: pointer;">
               </template>
-              <el-menu-item index="1-1" @click="goToPage('/HealthManagement')">Main Page</el-menu-item>
+              <el-menu-item index="1-1" @click="goToPage('/Health-Management')">Main Page</el-menu-item>
               <el-menu-item index="1-2" @click="goToPage('/UpdateInformation')">Manage Personal Information</el-menu-item>
               <el-menu-item index="1-3" @click="goToPage('/HealthData')">Health Data</el-menu-item>
               <el-menu-item index="1-4" @click="goToPage('/DietSportPreference')">Diet and Sport Preference</el-menu-item>
@@ -17,15 +17,12 @@
       </el-menu>
       <div class="form-container">
           <el-form :model="form" :rules="rules" ref="formRef">
-              
-          <h2 style="text-align: center;">Report Generation</h2>
-          <p style="text-align: center;">Please fill in your requirements below.</p>
-          <el-form-item>
-              <el-input type="textarea" v-model="form.sportPreferences" placeholder="Enter your requirement for this task.." clearable :rows="5"></el-input>
-          </el-form-item>
-          <el-form-item>
-              <el-button type="primary" @click="submitForm" style="text-align: center;">Submit</el-button>
-          </el-form-item>
+            <h2 style="text-align: center;">Report Generation</h2>
+            <p style="text-align: center;">Please fill in your requirements below.</p>
+            <el-form-item>
+                <el-input type="textarea" v-model="form.sportPreferences" placeholder="Enter your requirement for this task.." clearable :rows="5"></el-input>
+            </el-form-item>
+            <el-button type="primary" @click="submitForm">Submit</el-button>
           </el-form>
       </div>
   </div>
@@ -126,6 +123,7 @@
     box-shadow: 0 6px 30px rgba(70, 132, 180, 0.76);
     border-radius: 12px;
     transition: all 0.3s ease-in-out;
+    text-align: center;
   }
   
   /* 增加表单项之间的间距 */
@@ -138,7 +136,7 @@
   }
   /* 美化提交按钮 */
   ::v-deep .el-button {
-    font-size: 24px;
+    font-size: 18px;
     padding: 16px 32px;
     background-color: #409EFF;
     color: #fff;

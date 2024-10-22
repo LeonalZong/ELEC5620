@@ -3,16 +3,18 @@
         :background-color="backgroundColor" :text-color="textColor" :active-text-color="activeTextColor">
         <el-sub-menu index="1">
             <template v-slot:title><img src="../assets/logo.png" alt="Image 1" style="width: 20px; height: 20px; margin-right: 8px;"></template>
-            <el-menu-item index="1-1">Manage Personal Information</el-menu-item>
-            <el-menu-item index="1-2" @click="goToPage('/HealthData')">Health Data</el-menu-item>
-            <el-menu-item index="1-3" @click="goToPage('/DietSportPreference')">Diet and Sport Preference</el-menu-item>
-            <el-menu-item index="1-4" @click="logout">Log out</el-menu-item>
+            <el-menu-item index="1-1" @click="goToPage('/Health-Management')">Main Page</el-menu-item>
+            <el-menu-item index="1-2" @click="goToPage('/UpdateInformation')">Manage Personal Information</el-menu-item>
+            <el-menu-item index="1-3" @click="goToPage('/HealthData')">Health Data</el-menu-item>
+            <el-menu-item index="1-4" @click="goToPage('/DietSportPreference')">Diet and Sport Preference</el-menu-item>
+            <el-menu-item index="1-5" @click="logout">Log out</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="2" @click="goToPage('/ReportGeneration')">Generate Report</el-menu-item>
         <el-menu-item index="3" @click="goToPage('/ReportReview')">Historical Report Review</el-menu-item>
     </el-menu>
     <div class="form-container">
     <el-form :model="form" :rules="rules" ref="formRef">
+        <h2 style="text-align: center;">User Information Update</h2>
         <el-form-item label="Username" prop="username">
             <el-input v-model="form.username" placeholder="Please input username" clearable></el-input>
         </el-form-item>
@@ -33,9 +35,8 @@
         <el-form-item label="birth" prop="birth">
             <el-date-picker v-model="form.birth" type="date" :disabled-date="disableDate" placeholder="select birth date.."></el-date-picker>
         </el-form-item>
-        <el-form-item>
-            <el-button type="primary" @click="submitForm">Submit</el-button>
-        </el-form-item>
+        <el-button type="primary" @click="submitForm">Submit</el-button>
+
     </el-form>
 </div>
 </template>
@@ -176,12 +177,13 @@ export default {
 }
 
 .el-form {
-    width: 650px; /* 调整表单宽度 */
+    width: 500px; /* 调整表单宽度 */
     padding: 21px;
     background-color: #fff;
     box-shadow: 0 6px 30px rgba(70, 132, 180, 0.76); /* 为表单添加阴影 */
     border-radius: 12px; /* 圆角 */
     transition: all 0.3s ease-in-out; /* 增加过渡效果 */
+    text-align: center;
 }
 
 /* 增加表单项之间的间距 */
@@ -194,7 +196,7 @@ export default {
 }
 /* 美化提交按钮 */
 ::v-deep .el-button {
-    font-size: 24px;
+    font-size: 18px;
     padding:16px 32px;
     background-color: #409EFF;
     color: #fff;

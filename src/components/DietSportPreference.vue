@@ -6,25 +6,25 @@
               <template v-slot:title>
                 <img src="../assets/logo.png" alt="Image 1" style="width: 20px; height: 20px; margin-right: 8px; cursor: pointer;" @click="goToPage('/UpdateInformation')">
               </template>
-              <el-menu-item index="1-1" @click="goToPage('/UpdateInformation')">Manage Personal Information</el-menu-item>
-              <el-menu-item index="1-2" @click="goToPage('/HealthData')">Health Data</el-menu-item>
-              <el-menu-item index="1-3">Diet and Sport Preference</el-menu-item>
-              <el-menu-item index="1-4" @click="logout">Log out</el-menu-item>
+              <el-menu-item index="1-1" @click="goToPage('/Health-Management')">Main Page</el-menu-item>
+              <el-menu-item index="1-2" @click="goToPage('/UpdateInformation')">Manage Personal Information</el-menu-item>
+              <el-menu-item index="1-3" @click="goToPage('/HealthData')">Health Data</el-menu-item>
+              <el-menu-item index="1-4" @click="goToPage('/DietSportPreference')">Diet and Sport Preference</el-menu-item>
+              <el-menu-item index="1-5" @click="logout">Log out</el-menu-item>
           </el-sub-menu>
           <el-menu-item index="2" @click="goToPage('/ReportGeneration')">Generate Report</el-menu-item>
           <el-menu-item index="3" @click="goToPage('/ReportReview')">Historical Report Review</el-menu-item>
       </el-menu>
       <div class="form-container">
         <el-form :model="form" :rules="rules" ref="formRef">
+          <h2>Diet and Sport Preference Update</h2>
           <el-form-item label="Diet Preferences" prop="dietPreferences">
             <el-input type="textarea" v-model="form.dietPreferences" placeholder="Enter your diet preferences" clearable :rows="5"></el-input>
           </el-form-item>
           <el-form-item label="Sport Preferences" prop="sportPreferences">
             <el-input type="textarea" v-model="form.sportPreferences" placeholder="Enter your sport preferences" clearable :rows="5"></el-input>
           </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm">Submit</el-button>
-          </el-form-item>
+          <el-button type="primary" @click="submitForm">Submit</el-button>
         </el-form>
       </div>
     </div>
@@ -117,6 +117,7 @@ export default {
     box-shadow: 0 6px 30px rgba(70, 132, 180, 0.76);
     border-radius: 12px;
     transition: all 0.3s ease-in-out;
+    text-align: center;
   }
   
   /* 增加表单项之间的间距 */
@@ -129,7 +130,7 @@ export default {
   }
   /* 美化提交按钮 */
   ::v-deep .el-button {
-    font-size: 24px;
+    font-size: 18px;
     padding: 16px 32px;
     background-color: #409EFF;
     color: #fff;
