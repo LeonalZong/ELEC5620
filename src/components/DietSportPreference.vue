@@ -1,7 +1,7 @@
 <template>
     <div>
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
-          :background-color="backgroundColor" :text-color="textColor" :active-text-color="activeTextColor">
+      background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
           <el-sub-menu index="1">
               <template v-slot:title>
                 <img src="../assets/logo.png" alt="Image 1" style="width: 20px; height: 20px; margin-right: 8px; cursor: pointer;" @click="goToPage('/UpdateInformation')">
@@ -31,83 +31,75 @@
   </template>
   
   <script>
-  import axios from 'axios';
-  export default {
-    name: 'HealthData',
-    data() {
-      return {
-        form: {
-          dietPreferences: '',
-          sportPreferences: '',
-        },
-        rules: {
-          // Removed required validation for dietPreferences and sportPreferences
-        },
-      };
+import { saveDietSportPreference } from "../api";
+
+export default {
+  name: 'DietSportPreference',
+  data() {
+    return {
+      form: {
+        dietPreferences: '',
+        sportPreferences: '',
+      },
+      rules: {
+        // Add any validation rules if needed
+      },
+    };
+  },
+  methods: {
+    goToPage(route) {
+    this.$router.push(route);
     },
-    props: {
-      activeIndex: {
-        type: String,
-        default: '1',
-      },
-      backgroundColor: {
-        type: String,
-        default: '#545c64',
-      },
-      textColor: {
-        type: String,
-        default: '#fff',
-      },
-      activeTextColor: {
-        type: String,
-        default: '#ffd04b',
-      },
+    logout() {
+    localStorage.removeItem('token');
+    this.$router.push('/');
     },
-    methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      logout() {
-        // 清除本地存储的 token
-        localStorage.removeItem('token');
-  
-        // 跳转回登录页面
-        this.$router.push('/');
-      },
-      goToPage(route) {
-        this.$router.push(route); // 使用 Vue Router 进行页面跳转
-      },
-      submitForm() {
-        this.$refs.formRef.validate((valid) => {
-          if (valid) {
-            alert('Submit!');
-            // 将数据打包为 JSON
-            const jsonData = JSON.stringify(this.form);
-            // 发送到后端
-            this.sendDataToBackend(jsonData);
-          } else {
-            console.log('Error submit!');
-            return false;
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    data(){
+      return{
+        activeIndex: '1-3',
+        backgroundColor: '#545c64',
+        textColor: '#fff',
+        activeTextColor: '#ffd04b',
+      }
+    },
+    async submitForm() {
+      this.$refs.formRef.validate(async (valid) => {
+        if (valid) {
+          try {
+            const response = await saveDietSportPreference({
+              dietPreferences: this.form.dietPreferences,
+              sportPreferences: this.form.sportPreferences,
+            });
+
+            console.log('Diet and sport preferences response:', response);
+
+            if (response.data.code === 1) {  // Assuming success code is 1
+              alert('Diet and sport preferences successfully submitted!');
+              // Clear form or perform other logic
+              this.form.dietPreferences = '';
+              this.form.sportPreferences = '';
+            } else {
+              alert('Submission failed: ' + response.data.msg);
+            }
+          } catch (error) {
+            console.error('Error submitting diet and sport preferences:', error);
+            let errorMessage = 'Failed to submit diet and sport preferences.';
+            if (error.response && error.response.data && error.response.data.msg) {
+              errorMessage = error.response.data.msg;
+            }
+            alert(errorMessage);
           }
-        });
-      },
-      sendDataToBackend(data) {
-        //未测试
-        axios.post('http://localhost:8082/dietsportpreference/save', data, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        .then(response => {
-          console.log('Data sent successfully:', response.data);
-        })
-        .catch(error => {
-          console.error('Error sending data:', error);
-        });
-      },
+        } else {
+          alert('Please ensure all required fields are filled!');
+        }
+      });
     },
-  };
-  </script>
+  },
+};
+</script>
   
   <style scoped>
   .form-container {
