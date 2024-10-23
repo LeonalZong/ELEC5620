@@ -61,11 +61,11 @@
 
     <!-- 历史数据对话框 -->
     <el-dialog
-  title="Historical Health Data"
-  v-model="dialogVisible"
-  width="80%"
-  class="historical-dialog">
-  <div class="table-container">  <!-- 添加一个容器 -->
+      title="Historical Health Data"
+      v-model="dialogVisible"
+      width="80%"
+      class="historical-dialog">
+    <div class="table-container">  <!-- 添加一个容器 -->
     <el-table
       v-loading="tableLoading"
       :data="historicalData"

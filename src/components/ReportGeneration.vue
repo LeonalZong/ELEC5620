@@ -92,18 +92,37 @@
           }
         });
       },
-      sendDataToBackend(data) {
-        //未测试
-        axios.post('YOUR_BACKEND_URL', data, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+      sendDataToBackend(jsonData) {
+        // 获取存储的token
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+            this.$message.error('Please login first');
+            this.$router.push('/');
+            return;
+        }
+
+        // 从token中解析用户ID (token中包含了用户ID，在LoginController中设置的)
+        const tokenParts = token.split('.');
+        const payload = JSON.parse(atob(tokenParts[1]));
+        const userId = payload.id;  // 这里的'id'是您在LoginController中设置的
+
+        axios.post('http://localhost:8082/health-report/generate-report', jsonData, {
+            params: {
+                userId: userId  // 使用从token中解析出的用户ID
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`  // 添加token到请求头
+            }
         })
         .then(response => {
-          console.log('Data sent successfully:', response.data);
+            console.log('Data sent successfully:', response.data);
+            this.$message.success('Report generated successfully!');
         })
         .catch(error => {
-          console.error('Error sending data:', error);
+            console.error('Error sending data:', error);
+            this.$message.error('Failed to generate report. Please try again.');
         });
       },
     },

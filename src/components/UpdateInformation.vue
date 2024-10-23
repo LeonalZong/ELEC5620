@@ -13,26 +13,26 @@
     </el-menu>
     <div class="form-container">
     <el-form :model="form" :rules="rules" ref="formRef">
-        <el-form-item label="Username" prop="username">
+        <!-- <el-form-item label="Username" prop="username">
             <el-input v-model="form.username" placeholder="Please input username" clearable></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="Name" prop="name">
             <el-input v-model="form.name" placeholder="Please input your name" clearable></el-input>
         </el-form-item>
         <el-form-item label="Email" prop="email">
             <el-input v-model="form.email" placeholder="Please input your email" clearable></el-input>
         </el-form-item>
-        <el-form-item label="age" prop="selectedAge">
+        <!-- <el-form-item label="age" prop="selectedAge">
             <el-select v-model="form.selectedAge" placeholder="select your age">
                 <el-option v-for="age in ageOptions" :key="age" :label="age" :value="age"></el-option>
             </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="phone number" prop="phone">
             <el-input v-model="form.phone" placeholder="please input your phone number" maxlength="11" show-word-limit clearable></el-input>
         </el-form-item>
-        <el-form-item label="birth" prop="birth">
+        <!-- <el-form-item label="birth" prop="birth">
             <el-date-picker v-model="form.birth" type="date" :disabled-date="disableDate" placeholder="select birth date.."></el-date-picker>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
             <el-button type="primary" @click="submitForm">Submit</el-button>
         </el-form-item>
@@ -46,18 +46,18 @@ export default {
     data (){
         return{
             form: {
-                username: '',
+                // username: '',
                 name: '',
                 email: '',
-                selectedAge:'',
+                // selectedAge:'',
                 phone:'',
-                birth:'',
-                ageOptions: [],
+                // birth:'',
+                // ageOptions: [],
             },
             rules: {
-                username: [
-                { required: true, message: 'Username is required', trigger: 'blur' }
-                ],
+                // username: [
+                // { required: true, message: 'Username is required', trigger: 'blur' }
+                // ],
                 name: [
                 { required: true, message: 'Name is required', trigger: 'blur' }
                 ],
@@ -73,26 +73,27 @@ export default {
                     trigger: ['blur', 'change'] 
                 }
                 ],
-                birth: [
-                { required: true, message: '请选择出生日期', trigger: 'change' },
-                { 
-                    type: 'date', 
-                    message: '出生日期无效', 
-                    trigger: ['blur', 'change'], 
-                    validator: (rule, value, callback) => {
-                    if (value && new Date(value) > new Date()) {
-                        callback(new Error('出生日期不能是未来的日期'));
-                    } else {
-                        callback();
-                    }
-                    }
-                }
-                ]
+                // birth: [
+                // { required: true, message: '请选择出生日期', trigger: 'change' },
+                // { 
+                //     type: 'date', 
+                //     message: '出生日期无效', 
+                //     trigger: ['blur', 'change'], 
+                //     validator: (rule, value, callback) => {
+                //     if (value && new Date(value) > new Date()) {
+                //         callback(new Error('出生日期不能是未来的日期'));
+                //     } else {
+                //         callback();
+                //     }
+                //     }
+                // }
+                // ]
             },            
         }
     },
     created() {
         this.generateAgeOptions();
+        this.loadUserInfo();
     },
     
     props: {
@@ -114,6 +115,30 @@ export default {
         },
     },
     methods: {
+        loadUserInfo() {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        axios.get('http://localhost:8082/user/info', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if (response.data.code === 1) {
+                // 将现有用户信息填充到表单
+                const userData = response.data.data;
+                this.form.name = userData.name || '';
+                this.form.email = userData.email || '';
+                this.form.phone = userData.phone || '';
+                console.log('Loaded user info:', this.form);
+            }
+        })
+        .catch(error => {
+            console.error('Failed to load user info:', error);
+            this.$message.error('获取用户信息失败');
+        });
+    },
         handleSelect(key, keyPath) {
             console.log(key, keyPath);
         },
@@ -131,36 +156,71 @@ export default {
             this.ageOptions = Array.from({ length: 101 }, (_, i) => i);
         },
         submitForm() {
+        //     this.$refs.formRef.validate((valid) => {
+        //         if (valid) {
+        //             alert('Submit!');
+        //             // 将数据打包为 JSON
+        //             const jsonData = JSON.stringify(this.form);
+        //             // 发送到后端
+        //             this.sendDataToBackend(jsonData);
+        //         } else {
+        //             console.log('Error submit!');
+        //             return false;
+        //         }
+        // });
+
             this.$refs.formRef.validate((valid) => {
                 if (valid) {
-                    alert('Submit!');
-                    // 将数据打包为 JSON
-                    const jsonData = JSON.stringify(this.form);
-                    // 发送到后端
-                    this.sendDataToBackend(jsonData);
-                } else {
-                    console.log('Error submit!');
-                    return false;
+                    this.sendDataToBackend(); // 不需要传参
                 }
-        });
-        },
-        disableDate(time) {
-            return time.getTime() > Date.now();
-        },
-        sendDataToBackend(data) {
-            //未测试
-            axios.post('YOUR_BACKEND_URL', data, {
-                headers: {
-                'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                console.log('Data sent successfully:', response.data);
-            })
-            .catch(error => {
-                console.error('Error sending data:', error);
             });
         },
+        // disableDate(time) {
+        //     return time.getTime() > Date.now();
+        // },
+        sendDataToBackend() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        this.$message.error('未登录，请先登录');
+        return;
+    }
+    
+    try {
+        // 解析token获取用户ID
+        const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+        console.log('Token payload:', tokenPayload);
+        
+        // 构建要发送的数据，包含userId
+        const dataToSend = {
+            ...this.form,
+            userId: tokenPayload.id  // 从token中获取用户ID
+        };
+        
+        console.log('Sending form data:', dataToSend);
+        
+        axios.put('http://localhost:8082/user/update', dataToSend, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if (response.data.code === 1) {
+                this.$message.success('个人信息更新成功！');
+                console.log('Data updated successfully:', response.data);
+            } else {
+                this.$message.error(response.data.msg || '更新失败，请重试');
+            }
+        })
+        .catch(error => {
+            console.error('Error details:', error.response?.data);
+            this.$message.error(error.response?.data?.msg || '更新失败，请重试');
+        });
+    } catch (error) {
+        console.error('Token parsing error:', error);
+        this.$message.error('登录信息无效，请重新登录');
+    }
+},
     },
     
 };
