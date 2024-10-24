@@ -4,9 +4,9 @@
           :background-color="backgroundColor" :text-color="textColor" :active-text-color="activeTextColor">
           <el-sub-menu index="1">
               <template v-slot:title>
-                  <img src="../assets/logo.png" alt="Image 1" style="width: 20px; height: 20px; margin-right: 8px; cursor: pointer;" @click="goToPage('/UpdateInformation')">
+                <img src="../assets/icon.svg" alt="Image 1" style="width: 40px; height: 40px; margin-right: 8px; cursor: pointer;">
               </template>
-              <el-menu-item index="1-1" @click="goToPage('/HealthManagement')">Main Page</el-menu-item>
+              <el-menu-item index="1-1" @click="goToPage('/health-management')">Main Page</el-menu-item>
               <el-menu-item index="1-2" @click="goToPage('/UpdateInformation')">Manage Personal Information</el-menu-item>
               <el-menu-item index="1-3" @click="goToPage('/HealthData')">Health Data</el-menu-item>
               <el-menu-item index="1-4" @click="goToPage('/DietSportPreference')">Diet and Sport Preference</el-menu-item>
@@ -23,9 +23,7 @@
           <el-form-item>
               <el-input type="textarea" v-model="form.sportPreferences" placeholder="Enter your requirement for this task.." clearable :rows="5"></el-input>
           </el-form-item>
-          <el-form-item>
-              <el-button type="primary" @click="submitForm" style="text-align: center;">Submit</el-button>
-          </el-form-item>
+            <el-button type="primary" @click="submitForm" style="text-align: center;">Submit</el-button>
           </el-form>
       </div>
   </div>

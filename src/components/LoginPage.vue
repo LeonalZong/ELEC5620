@@ -19,7 +19,7 @@
       </div>
       <template v-slot:footer>
         <el-button @click="loginDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="handleLogin">Login</el-button>
+        <el-button type="primary" @click="handleLogin" v-loading="loading">Login</el-button>
       </template>
     </el-dialog>
 
@@ -39,7 +39,7 @@
       </div>
       <template v-slot:footer>
         <el-button @click="registerDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="handleRegister">Register</el-button>
+        <el-button type="primary" @click="handleRegister" v-loading="loading">Register</el-button>
       </template>
     </el-dialog>
   </div>
@@ -69,7 +69,8 @@ export default {
         email: '',
         password: '',
         confirmPassword: ''
-      }
+      },
+      loading:false
     };
   },
   methods: {
@@ -80,6 +81,7 @@ export default {
       this.registerDialogVisible = true;
     },
     async handleLogin() {
+      this.loading = true;
       if (this.loginForm.username && this.loginForm.password) {
         try {
           const response = await loginUser({
@@ -93,8 +95,8 @@ export default {
           if (response.data && response.data.data) {
             const token = response.data.data;  // 获取token
             localStorage.setItem('token', token);
-
             alert('登录成功');
+            this.loading = false;
             this.loginDialogVisible = false;
 
             // 登录成功后跳转到健康管理页面
@@ -103,9 +105,11 @@ export default {
             } catch (routerError) {
               console.error('路由跳转错误：', routerError);
               alert('跳转到健康管理页面失败');
+              this.loading = false;
             }
           } else {
             alert('登录失败：未收到令牌');
+            this.loading = false;
           }
         } catch (error) {
           console.error('登录错误：', error);
@@ -117,14 +121,18 @@ export default {
           }
 
           alert(errorMessage);
+          this.loading = false;
         }
       } else {
         alert('请输入用户名和密码');
+        this.loading = false;
       }
     },
     async handleRegister() {
+      this.loading = true;
       if (this.registerForm.password !== this.registerForm.confirmPassword) {
         alert('Passwords do not match');
+        this.loading = false;
       } else if (this.registerForm.username && this.registerForm.email && this.registerForm.password) {
         try {
           const response = await registerUser({
@@ -133,13 +141,16 @@ export default {
             password: this.registerForm.password
           });
           alert(`Registration successful: ${response.data.message}`);
+          this.loading = false;
           this.registerDialogVisible = false;
         } catch (error) {
           console.error(error);
           alert('Registration failed. Please try again.');
+          this.loading = false;
         }
       } else {
         alert('Please fill out all fields');
+        this.loading = false;
       }
     }
   }

@@ -2,16 +2,16 @@
     <div>
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
           :background-color="backgroundColor" :text-color="textColor" :active-text-color="activeTextColor">
-        <el-sub-menu index="1">
-          <template v-slot:title>
-            <img src="../assets/logo.png" alt="Logo" style="width: 20px; height: 20px; margin-right: 8px; cursor: pointer;" @click="goToPage('/HealthManagement')">
-          </template>
-          <el-menu-item index="1-1" @click="goToPage('/HealthManagement')">Main Page</el-menu-item>
-          <el-menu-item index="1-2" @click="goToPage('/UpdateInformation')">Manage Personal Information</el-menu-item>
-          <el-menu-item index="1-3" @click="goToPage('/HealthData')">Health Data</el-menu-item>
-          <el-menu-item index="1-4" @click="goToPage('/DietSportPreference')">Diet and Sport Preference</el-menu-item>
-          <el-menu-item index="1-5" @click="logout">Log out</el-menu-item>
-        </el-sub-menu>
+          <el-sub-menu index="1">
+              <template v-slot:title>
+                <img src="../assets/icon.svg" alt="Image 1" style="width: 40px; height: 40px; margin-right: 8px; cursor: pointer;">
+              </template>
+              <el-menu-item index="1-1" @click="goToPage('/health-management')">Main Page</el-menu-item>
+              <el-menu-item index="1-2" @click="goToPage('/UpdateInformation')">Manage Personal Information</el-menu-item>
+              <el-menu-item index="1-3" @click="goToPage('/HealthData')">Health Data</el-menu-item>
+              <el-menu-item index="1-4" @click="goToPage('/DietSportPreference')">Diet and Sport Preference</el-menu-item>
+              <el-menu-item index="1-5" @click="logout">Log out</el-menu-item>
+          </el-sub-menu>
         <el-menu-item index="2" @click="goToPage('/ReportGeneration')">Generate Report</el-menu-item>
         <el-menu-item index="3">Historical Report Review</el-menu-item>
       </el-menu>
